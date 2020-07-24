@@ -44,11 +44,12 @@ class App extends Component {
         <div className="App">
           <h1>Hi, welcome to hovel!</h1>
           <h1> That's your games:</h1>
+          <Game name={this.state.characters.name} id={this.state.characters.id}/>
         </div>
     );
     }  
   }
 }
-//<Game name={characters.games.name} id={characters.games.playersNumber}/>
+
 
 export default App;
