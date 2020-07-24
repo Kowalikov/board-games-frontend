@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Game from './Game/Game';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      characters:[],
+      isLoaded : false
+    }
+  }
+
+  componentDidMount() {
+    fetch('http://arturborowiec.pl/boardgames.json?fbclid=IwAR1svYb9xakqe39Cx44jmDr0JxL1hpTyW4s4ANwk-4Vt9mBn26JFCCvYwzs')
+    .then(res => res.json())
+    .then(json=>{
+      this.setState({
+        characters:json,
+        isLoaded : true
+      })
+    });
+
+  }
+ 
+  render () {
+
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+    };
+
+    var {isLoaded, characters} = this.setState;
+
+    if (!isLoaded) {
+      return <div>Loading..</div>;
+    }
+    else{
+      return (
+        <div className="App">
+          <h1>Hi, welcome to hovel!</h1>
+          <h1> That's your games:</h1>
+        </div>
+    );
+    }  
+  }
 }
+//<Game name={characters.games.name} id={characters.games.playersNumber}/>
 
 export default App;
