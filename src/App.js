@@ -10,8 +10,11 @@ class App extends Component {
     }
   }
 
+
   componentDidMount() {
-    fetch('http://arturborowiec.pl/boardgames.json?fbclid=IwAR1svYb9xakqe39Cx44jmDr0JxL1hpTyW4s4ANwk-4Vt9mBn26JFCCvYwzs')
+    let u1='https://rickandmortyapi.com/api/character/187'
+    let u2='http://arturborowiec.pl/boardgames.json?fbclid=IwAR1svYb9xakqe39Cx44jmDr0JxL1hpTyW4s4ANwk-4Vt9mBn26JFCCvYwzs'
+    fetch(u1)
     .then(res => res.json())
     .then(json=>{
       this.setState({
@@ -33,7 +36,7 @@ class App extends Component {
 
     var {isLoaded, characters} = this.setState;
 
-    if (!isLoaded) {
+    if (isLoaded===false) {
       return <div>Loading..</div>;
     }
     else{
