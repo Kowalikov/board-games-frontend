@@ -5,7 +5,7 @@ const Game = (props) => {
 
 return (
     <div className="Game">
-        <p onClick={props.click}>I'm {props.name} and that's my id: {props.id}</p>
+        <p onClick={props.click}>I'm {props.name} and number of players is: {props.playersNumber}</p>
         <p>{props.children}</p>
     </div>
 

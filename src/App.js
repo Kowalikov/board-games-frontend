@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Game from './Game/Game';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -13,17 +14,19 @@ class App extends Component {
 
   componentDidMount() {
     let u1='https://rickandmortyapi.com/api/character/187'
-    let u2='http://arturborowiec.pl/boardgames.json?fbclid=IwAR1svYb9xakqe39Cx44jmDr0JxL1hpTyW4s4ANwk-4Vt9mBn26JFCCvYwzs'
-    fetch(u1)
-    .then(res => res.json())
-    .then(json=>{
-      this.setState({
-        characters:json,
-        isLoaded : true
-      })
-    });
-
+    let u2='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+    axios.get(u2)
+      .then(response => {
+        this.setState({
+          characters:response.data,
+          isLoaded:true
+        });
+      });
+      
+  
   }
+
  
   render () {
 
@@ -34,7 +37,11 @@ class App extends Component {
       padding: '8px',
     };
 
-    var {isLoaded, characters} = this.setState;
+    const characters = this.state.characters.map(character => { 
+      return <Game name={character.name} playersNumber={character.playersNumber}/>;
+    });
+
+    var {isLoaded, chars} = this.setState;
 
     if (isLoaded===false) {
       return <div>Loading..</div>;
@@ -44,7 +51,8 @@ class App extends Component {
         <div className="App">
           <h1>Hi, welcome to hovel!</h1>
           <h1> That's your games:</h1>
-          <Game name={this.state.characters.name} id={this.state.characters.id}/>
+          {characters}
+
         </div>
     );
     }  
