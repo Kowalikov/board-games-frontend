@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F3EFF5;
 }
 
 code {
@@ -16,11 +17,28 @@ code {
   text-align:center;
 }
 
+.App .Game {
+  background-color: #d0d0dd;
+}
+
 .App .Game img {
   position: relative;
   right: -368px;
-  opacity: 0.5;
+  opacity: 0.8;
   max-width: 50%;
   height: 140%;
   top:-65px;
+}
+
+.loginButton {
+  background-color: #80C2AF; /* Green */
+  border: none;
+  color: #F3EFF5;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }

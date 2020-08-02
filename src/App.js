@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import Game from './Game/Game';
 import axios from 'axios';
+import LogPanel from './LogPanel/LogPanel';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state={
       characters:[],
-      isLoaded : false
+      isLoaded : false,
+      isLogged : false,
+      username : null,
+      password : null,
+      loading : false
     }
   }
 
@@ -27,12 +32,38 @@ class App extends Component {
   
   }
 
+  submitHandler(event) {
+    this.setState({ loading: true });
+    
+    //Faking API call here
+    setTimeout(() => {
+      this.setState({ loading: false });
+      this.setState({isLogged: true})
+    }, 1400);
+  }
+
+  usernameChangeHandler(event) {
+    const logData = {
+      ...this.state
+    };
+    logData.username = event.target.value;
+    this.setState({username: logData.username})
+  }
+
+  passwordChangeHandler(event) {
+    const logData = {
+      ...this.state
+    };
+    logData.password = event.target.value;
+    this.setState({password: logData.password})
+  }
  
+
+
   render () {
 
     const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
+      color: '#0D0A0B',
     };
 
     const characters = this.state.characters.map(character => { 
@@ -41,14 +72,26 @@ class App extends Component {
 
     var {isLoaded, chars} = this.setState;
 
-    if (isLoaded===false) {
+    if(this.state.isLogged===false){
+      return(
+        <div className="App">
+          <h1 style={style} >Hi, welcome to BoardGames!</h1>
+          <LogPanel
+          changedUsername={(event)=> this.usernameChangeHandler(event)}
+          changedPassword={(event)=> this.passwordChangeHandler(event)}
+          submit={(event) =>this.submitHandler(event)}
+          submitting={this.state.loading}></LogPanel>
+        </div>
+      );
+    }
+    else if (isLoaded===false) {
       return <div>Loading..</div>;
     }
     else{
       return (
         <div className="App">
-          <h1>Hi, welcome to BoardGames!</h1>
-          <h1> That's your games:</h1>
+          <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
+          <h1 style={style}> That's your games:</h1>
           {characters}
 
         </div>
