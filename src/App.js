@@ -33,12 +33,10 @@ class App extends Component {
     const style = {
       backgroundColor: 'white',
       font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
     };
 
     const characters = this.state.characters.map(character => { 
-      return <Game name={character.name} playersNumber={character.playersNumber}/>;
+      return <Game name={character.name} playersNumber={character.playersNumber} img={character.imgUrl}/>;
     });
 
     var {isLoaded, chars} = this.setState;
@@ -49,7 +47,7 @@ class App extends Component {
     else{
       return (
         <div className="App">
-          <h1>Hi, welcome to hovel!</h1>
+          <h1>Hi, welcome to BoardGames!</h1>
           <h1> That's your games:</h1>
           {characters}
 

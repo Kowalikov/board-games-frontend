@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.App{
+  position: central;
+  text-align:center;
+}
+
+.App .Game img {
+  position: relative;
+  right: -368px;
+  opacity: 0.5;
+  max-width: 50%;
+  height: 140%;
+  top:-65px;
+}
