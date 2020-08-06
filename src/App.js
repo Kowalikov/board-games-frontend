@@ -100,7 +100,7 @@ class App extends Component {
           <h1 style={style} >Hi, welcome to BoardGames!</h1>
           <LogPanel
           changedUsername={(event)=> this.usernameChangeHandler(event)}
-          changedPassword={(event)=> this.passwordChangeHandler(event)}
+          /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
           submit={(event) =>this.submitHandler(event)}
           submitting={this.state.loading}
           wrongLoginData={this.state.wrongLoginData}></LogPanel>
