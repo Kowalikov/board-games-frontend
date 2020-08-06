@@ -8,9 +8,9 @@ const loading=props.submitting
 return (
     <div className="LogPanel">
         <p>Username:</p>
-        <input type= "text" onChange={props.changedUsername}/>
+        <input type= "text" onChange={props.changedUsername} />
         <p>Password:</p>
-        <input type= "password" onChange={props.changedPassword}/>
+        <input type= "password" onChange={props.changedPassword} />
         <h5></h5>
         <button className="loginButton" onClick={props.submit} disabled={loading}>
         {loading && (<i
@@ -21,6 +21,7 @@ return (
           {loading && <span>Logging in</span>}
           {!loading && <span>Log in</span>}
         </button>
+        {props.wrongLoginData===true && <p style={{color:'red'}}>Wrong login data</p>}
         <p>{props.children}</p>
     </div>
     );
