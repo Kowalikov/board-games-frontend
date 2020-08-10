@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Game from './Game/Game';
 import axios from 'axios';
 import LogPanel from './LogPanel/LogPanel';
+import RegistrationPanel from './RegistrationPanel/RegistrationPanel'
+import Axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -12,16 +14,20 @@ class App extends Component {
       usersLoaded : false,
       gamesListLoaded : false,
       isLogged : false,
+      isRegistered: false,
+      wantRegister : true,
       username : null,
       password : null,
       loading : false,
-      wrongLoginData : false
+      wrongLoginData : false,
+      unavaliableUsername : false
+
     }
   }
 
 
   componentDidMount() {
-    let uTest='https://rickandmortyapi.com/api/character/187'
+    //let uTest='https://rickandmortyapi.com/api/character/187'
     let uGamesList='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
@@ -31,24 +37,50 @@ class App extends Component {
           gamesListLoaded:true
         });
       });
-    let uLog='https://cors-anywhere.herokuapp.com/https://boardgames1.herokuapp.com/register/'
-    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-    axios.get(uLog)
-      .then(response => {
-        this.setState({
-          users:response.data,
-          usersLoaded:true
-        });
+    let uLog='https://boardgames1.herokuapp.com/register/'
+    const article = {"username": "foo-user2"};
+    
+    async function postData(url = '', data = {}) {
+      const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'no-cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          'Content-Type': 'text/plain',
+          },
+        body: data // body data type must match "Content-Type" header
       });
-    console.log(this.state.users)
-  
+      return response; // parses JSON response into native JavaScript objects
+    }
+    
+    /*
+    postData(uLog, article)
+      .then(response => {
+        console.log(response); // JSON data parsed by `data.json()` call
+      }).catch(error =>{console.log(error)});
+
+    */
+   this.setState({
+    usersLoaded:true
+  });
+   
+
+  }
+
+  submitRegisterHandler(event) {
+    this.setState({isRegistered: true});
+    this.setState({isLogged: true});
+    this.setState({wantRegister: false});
+    this.setState({wrongLoginData : false})
+      
+   
   }
 
   submitHandler(event) {
     this.setState({ loading: true });
     
     const username = this.state.username;
-    const users = this.state.users
+    //const users = this.state.users
 
     this.state.users.map(user => { 
       if (username===user.username){
@@ -92,9 +124,9 @@ class App extends Component {
       return <Game name={game.name} playersNumber={game.playersNumber} img={game.imgUrl}/>;
     });
 
-    var {gamesListLoaded, gs} = this.setState;
+    //var {gamesListLoaded, gs} = this.setState;
 
-    if(this.state.isLogged===false){
+    if(this.state.wantRegister===false && this.state.isRegistered===false && this.state.isLogged===false){
       return(
         <div className="App">
           <h1 style={style} >Hi, welcome to BoardGames!</h1>
@@ -107,6 +139,19 @@ class App extends Component {
         </div>
       );
     }
+    else if (this.state.wantRegister===true && this.state.isLogged===false && this.state.isRegistered===false ) {
+      return(
+        <div className="App">
+          <h1 style={style} >Hi, welcome to BoardGames!</h1>
+          <RegistrationPanel
+          changedUsername={(event)=> this.usernameChangeHandler(event)}
+          /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
+          register={(event) =>this.submitRegisterHandler(event)}
+          submitting={this.state.loading}
+          unavaliableUsername={this.state.unavaliableUsername}></RegistrationPanel>
+        </div>
+      );
+    }
     else if (this.state.gamesListLoaded===false || this.state.usersLoaded===false ) {
       return <div>Loading..</div>;
     }
@@ -116,6 +161,7 @@ class App extends Component {
           <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
           <h1 style={style}> That's your games:</h1>
           {games}
+
         </div>
     );
     }  
