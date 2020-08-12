@@ -1,31 +1,40 @@
-import React from 'react';
+import React, {Component} from 'react';
+import './RegistrationPanel.css'
 
+class RegistrationPanel extends Component {
+  _handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        return (this.props.register) 
+      } 
+  }
+  render(){
+    const loading=this.props.submitting
 
-const RegistrationPanel = (props) => {
-
-const loading=props.submitting
-
-return (
-    <div className="RegistrationPanel">
-        <p>Username:</p>
-        <input type= "text" onChange={props.changedUsername} />
-        {/*<p>Password:</p>
-        <input type= "password" onChange={props.changedPassword} />*/}
-        <h5></h5>
-        <button className="registrationButton" onClick={props.register} disabled={loading}>
-        {loading && (<i
-              className="fa fa-refresh fa-spin"
-              style={{ marginRight: "5px" }}
-            />
-          )}
-          {loading && <span>Registering</span>}
-          {!loading && <span>Register</span>}
-        </button>
-        {props.unavaliableUsername===true && <p style={{color:'red'}}>That username is unavaliable</p>}
-        <p>{props.children}</p>
-    </div>
+    return (
+      <div className="RegistrationPanel">
+          <p>Username:</p>
+          <input type= "text" onChange={this.props.changedUsername} onKeyPress={this.props.enterRegister} />
+          {/*<p>Password:</p>
+          <input type= "password" onChange={this.props.changedPassword} />*/}
+          <br></br>
+          <br></br>
+          <button className="registrationButton" onClick={this.props.register}  disabled={loading}>
+          {loading && (<i
+                className="fa fa-refresh fa-spin"
+                style={{ marginRight: "5px" }}
+              />
+            )}
+            {loading && <span>Registering</span>}
+            {!loading && <span>Register</span>}
+          </button>
+          {this.props.unavaliableUsername===true && <p style={{color:'red'}}>That username is unavaliable</p>}
+          <p>{this.props.children}</p>
+          <button className="gotoLoginButton" onClick={this.props.gotoLogin} >
+          Login screen
+          </button>
+      </div>
     );
-
+  }
 };
 
 export default RegistrationPanel;

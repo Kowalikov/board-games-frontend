@@ -1,0 +1,23 @@
+.RegistrationPanel .gotoLoginButton {
+  position: relative;
+  left: -45px;
+  background-color: #a3cac1; /* Green */
+  height: 25px;
+  border: none;
+  color: #f7f1fa;
+}
+
+.RegistrationPanel .registrationButton {
+  background-color: #69c3aa; /* Green */
+  border: none;
+  color: #F3EFF5;
+  padding: 5px 59px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  position: relative;
+
+}

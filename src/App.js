@@ -3,7 +3,7 @@ import Game from './Game/Game';
 import axios from 'axios';
 import LogPanel from './LogPanel/LogPanel';
 import RegistrationPanel from './RegistrationPanel/RegistrationPanel'
-import Axios from 'axios';
+//import Axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -37,46 +37,73 @@ class App extends Component {
           gamesListLoaded:true
         });
       });
+
     let uLog='https://boardgames1.herokuapp.com/register/'
-    const article = {"username": "foo-user2"};
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+    axios.get(uLog)
+      .then(response => {
+        this.setState({
+          users:response.data,
+          usersLoaded:true
+        });
+      });
+   
+
+  }
+
+  enterRegisterHandler(event) {
+    if (event.charCode === 13){
+      this.submitRegisterHandler();
+    }
+  }
+  
+  submitRegisterHandler(event) {
+    let uReg='https://boardgames1.herokuapp.com/register/'
+    const article = {"username": this.state.username};
     
+    //console.log(article)
+
     async function postData(url = '', data = {}) {
       const response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'no-cors', // no-cors, *cors, same-origin
+        mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json',
           },
-        body: data // body data type must match "Content-Type" header
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
       });
       return response; // parses JSON response into native JavaScript objects
     }
     
-    /*
-    postData(uLog, article)
-      .then(response => {
-        console.log(response); // JSON data parsed by `data.json()` call
-      }).catch(error =>{console.log(error)});
-
-    */
-   this.setState({
-    usersLoaded:true
-  });
-   
-
+    let resStatus = postData(uReg, article).then(
+      response => { console.log(response.status);
+        if( response.status === 201){
+        console.log("Zarejestrowany");
+        this.setState({
+          usersLoaded:true,
+          isLogged: true,
+          unavaliableUsername : false,
+          isRegistered: true
+        });
+      }
+      else if (response.status === 400){
+        this.setState({unavaliableUsername: true});
+        console.log("Zła nazwa");
+      }
+      else{
+        console.log("Problem z łącznością z serwerem");
+      }
+    });
   }
 
-  submitRegisterHandler(event) {
-    this.setState({isRegistered: true});
-    this.setState({isLogged: true});
-    this.setState({wantRegister: false});
-    this.setState({wrongLoginData : false})
-      
-   
+  enterLoginHandler(event) {
+    if (event.charCode === 13){
+      this.submitLoginHandler();
+    }
   }
 
-  submitHandler(event) {
+  submitLoginHandler(event) {
     this.setState({ loading: true });
     
     const username = this.state.username;
@@ -92,7 +119,6 @@ class App extends Component {
     if (this.state.isLogged===false){
       this.setState({ loading: false });
       this.setState({wrongLoginData : true});
-
     }
   }
 
@@ -111,6 +137,14 @@ class App extends Component {
     logData.password = event.target.value;
     this.setState({password: logData.password})
   }
+
+  gotoLoginHandler(event) {
+    const logData = {
+      ...this.state
+    };
+    logData.wantRegister = false;
+    this.setState({wantRegister: logData.wantRegister})
+  }
  
 
 
@@ -120,8 +154,14 @@ class App extends Component {
       color: '#0D0A0B',
     };
 
-    const games = this.state.games.map(game => { 
-      return <Game name={game.name} playersNumber={game.playersNumber} img={game.imgUrl}/>;
+    const games = this.state.games.map((game, index) => { 
+      return <Game 
+        name={game.name}
+        key={game.id}
+        playersNumber={game.playersNumber}
+        img={game.imgUrl}
+        //click={() => this.props.clicked(index)}
+        />;
     });
 
     //var {gamesListLoaded, gs} = this.setState;
@@ -133,7 +173,8 @@ class App extends Component {
           <LogPanel
           changedUsername={(event)=> this.usernameChangeHandler(event)}
           /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
-          submit={(event) =>this.submitHandler(event)}
+          submit={(event) =>this.submitLoginHandler(event)}
+          enterLogin={(event) => this.enterLoginHandler(event)}
           submitting={this.state.loading}
           wrongLoginData={this.state.wrongLoginData}></LogPanel>
         </div>
@@ -147,7 +188,9 @@ class App extends Component {
           changedUsername={(event)=> this.usernameChangeHandler(event)}
           /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
           register={(event) =>this.submitRegisterHandler(event)}
+          enterRegister={(event) => this.enterRegisterHandler(event)}
           submitting={this.state.loading}
+          gotoLogin={(event) => this.gotoLoginHandler(event)}
           unavaliableUsername={this.state.unavaliableUsername}></RegistrationPanel>
         </div>
       );
