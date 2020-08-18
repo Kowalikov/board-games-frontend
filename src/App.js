@@ -3,7 +3,15 @@ import Game from './Game/Game';
 import axios from 'axios';
 import LogPanel from './LogPanel/LogPanel';
 import RegistrationPanel from './RegistrationPanel/RegistrationPanel'
-//import Axios from 'axios';
+import Warcaby from './Games/warcaby/warcaby'
+import Szachy from './Games/szachy/szachy'
+import Tictactoe from './Games/tictactoe/tictactoe'
+import {
+  Switch,
+  Route,
+//  Link
+} from "react-router-dom";
+
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +23,7 @@ class App extends Component {
       gamesListLoaded : false,
       isLogged : false,
       isRegistered: false,
-      wantRegister : true,
+      wantRegister : false,
       username : null,
       password : null,
       loading : false,
@@ -76,7 +84,7 @@ class App extends Component {
       return response; // parses JSON response into native JavaScript objects
     }
     
-    let resStatus = postData(uReg, article).then(
+    postData(uReg, article).then(
       response => { console.log(response.status);
         if( response.status === 201){
         console.log("Zarejestrowany");
@@ -145,8 +153,15 @@ class App extends Component {
     logData.wantRegister = false;
     this.setState({wantRegister: logData.wantRegister})
   }
- 
 
+  gotoRegisterHandler(event) {
+    const logData = {
+      ...this.state
+    };
+    logData.wantRegister = true;
+    this.setState({wantRegister: logData.wantRegister})
+  }
+  
 
   render () {
 
@@ -155,27 +170,40 @@ class App extends Component {
     };
 
     const games = this.state.games.map((game, index) => { 
-      return <Game 
-        name={game.name}
-        key={game.id}
-        playersNumber={game.playersNumber}
-        img={game.imgUrl}
-        //click={() => this.props.clicked(index)}
-        />;
+      //if (game.name !== "Kółko i krzyżyk") {
+        return <Game 
+          name={game.name}
+          key={game.id}
+          playersNumber={game.playersNumber}
+          img={game.imgUrl}
+          />;
+      //}
+    });
+
+    const switchToGames = this.state.games.map((game, index) => { 
+        return(
+          <Switch>
+            <Route path={game.name} exact component={game.name}/>
+          </Switch>
+        )
     });
 
     //var {gamesListLoaded, gs} = this.setState;
 
-    if(this.state.wantRegister===false && this.state.isRegistered===false && this.state.isLogged===false){
+    if (this.state.gamesListLoaded===false || this.state.usersLoaded===false ) {
+      return <div>Loading...</div>;
+    }
+    else if(this.state.wantRegister===false && this.state.isRegistered===false && this.state.isLogged===false){
       return(
         <div className="App">
           <h1 style={style} >Hi, welcome to BoardGames!</h1>
           <LogPanel
           changedUsername={(event)=> this.usernameChangeHandler(event)}
-          /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
+          //changedPassword={(event)=> this.passwordChangeHandler(event)}
           submit={(event) =>this.submitLoginHandler(event)}
           enterLogin={(event) => this.enterLoginHandler(event)}
           submitting={this.state.loading}
+          gotoRegister={(event) => this.gotoRegisterHandler(event)}
           wrongLoginData={this.state.wrongLoginData}></LogPanel>
         </div>
       );
@@ -186,7 +214,7 @@ class App extends Component {
           <h1 style={style} >Hi, welcome to BoardGames!</h1>
           <RegistrationPanel
           changedUsername={(event)=> this.usernameChangeHandler(event)}
-          /*changedPassword={(event)=> this.passwordChangeHandler(event)}*/
+          //changedPassword={(event)=> this.passwordChangeHandler(event)}
           register={(event) =>this.submitRegisterHandler(event)}
           enterRegister={(event) => this.enterRegisterHandler(event)}
           submitting={this.state.loading}
@@ -195,21 +223,23 @@ class App extends Component {
         </div>
       );
     }
-    else if (this.state.gamesListLoaded===false || this.state.usersLoaded===false ) {
-      return <div>Loading..</div>;
-    }
     else{
       return (
-        <div className="App">
-          <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
-          <h1 style={style}> That's your games:</h1>
-          {games}
-
-        </div>
+          <div className="App">
+            <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
+            <h1 style={style}> That's your games:</h1>
+            {games}
+            <Switch>
+              <Route path={"/Warcaby"} exact component={Warcaby}/>
+              <Route path={"/Szachy"} exact component={Szachy}/>
+              <Route path={"/Kółko i krzyżyk"} exact component={Tictactoe}/>
+            </Switch>
+          </div>
     );
     }  
   }
 }
+
 
 
 export default App;

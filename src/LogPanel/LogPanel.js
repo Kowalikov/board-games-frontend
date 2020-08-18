@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './LogPanel.css'
 
 class LogPanel extends Component {
 
@@ -23,6 +24,11 @@ class LogPanel extends Component {
             {!loading && <span>Log in</span>}
           </button>
           {this.props.wrongLoginData===true && <p style={{color:'red'}}>Wrong login data</p>}
+          <br></br>
+          <br></br>
+          <button className="gotoRegisterButton" onClick={this.props.gotoRegister} >
+          Sign in
+          </button>
           <p>{this.props.children}</p>
       </div>
       );

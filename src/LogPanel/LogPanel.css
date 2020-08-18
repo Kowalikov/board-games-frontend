@@ -1,0 +1,8 @@
+.LogPanel .gotoRegisterButton {
+    position: relative;
+    left: -62px;
+    background-color: #a3cac1; /* Green */
+    height: 25px;
+    border: none;
+    color: #f7f1fa;
+  }

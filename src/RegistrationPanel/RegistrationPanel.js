@@ -28,10 +28,12 @@ class RegistrationPanel extends Component {
             {!loading && <span>Register</span>}
           </button>
           {this.props.unavaliableUsername===true && <p style={{color:'red'}}>That username is unavaliable</p>}
-          <p>{this.props.children}</p>
+          <br></br>
+          <br></br>
           <button className="gotoLoginButton" onClick={this.props.gotoLogin} >
           Login screen
           </button>
+          <p>{this.props.children}</p>
       </div>
     );
   }
