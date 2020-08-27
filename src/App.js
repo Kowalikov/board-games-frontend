@@ -229,6 +229,11 @@ class App extends Component {
             <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
             <h1 style={style}> That's your games:</h1>
             {games}
+            <Game 
+            name={"tictactoe"}
+            key={1}
+            playersNumber={2}
+            />;
             <Switch>
               <Route path={"/Warcaby"} exact component={Warcaby}/>
               <Route path={"/Szachy"} exact component={Szachy}/>
