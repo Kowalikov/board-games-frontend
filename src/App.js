@@ -237,7 +237,7 @@ class App extends Component {
             <Switch>
               <Route path={"/Warcaby"} exact component={Warcaby}/>
               <Route path={"/Szachy"} exact component={Szachy}/>
-              <Route path={"/tictactoe"} exact component={Tictactoe}/>
+              <Route path={"/board-games-frontend/tictactoe"} exact component={Tictactoe}/>
             </Switch>
           </div>
     );

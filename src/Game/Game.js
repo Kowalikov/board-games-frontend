@@ -16,7 +16,7 @@ class Game extends Component {
     }
 
     render() {
-        const gameURL = "/"+ this.props.name
+        const gameURL = "/board-games-frontend/"+ this.props.name
         //console.log(props)
         return (
                 <div className="Game">
