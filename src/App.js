@@ -233,12 +233,11 @@ class App extends Component {
             name={"tictactoe"}
             key={1}
             playersNumber={2}
-
-            />;
+            />
             <Switch>
               <Route path={"/Warcaby"} exact component={Warcaby}/>
               <Route path={"/Szachy"} exact component={Szachy}/>
-              <Route path={"/board-games-frontend/tictactoe"} exact component={Tictactoe}/>
+              <Route path={"/tictactoe"} exact component={Tictactoe}/>
             </Switch>
           </div>
     );
