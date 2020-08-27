@@ -233,6 +233,7 @@ class App extends Component {
             name={"tictactoe"}
             key={1}
             playersNumber={2}
+
             />;
             <Switch>
               <Route path={"/Warcaby"} exact component={Warcaby}/>
