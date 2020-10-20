@@ -37,7 +37,7 @@ class App extends Component {
 
   componentDidMount() {
     //let uTest='https://rickandmortyapi.com/api/character/187'
-    let uGamesList='http://boardgames1.herokuapp.com/games/'
+    let uGamesList='https://boardgames1.herokuapp.com/games/'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
       .then(response => {
