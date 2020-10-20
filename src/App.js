@@ -6,10 +6,11 @@ import RegistrationPanel from './RegistrationPanel/RegistrationPanel'
 import Warcaby from './Games/warcaby/warcaby'
 import Szachy from './Games/szachy/szachy'
 import Tictactoe from './Games/tictactoe/tictactoe'
+import GameMatching from './GamesMatching/GameMatching'
 import {
   Switch,
   Route,
-//  Link
+  Link
 } from "react-router-dom";
 
 
@@ -21,7 +22,7 @@ class App extends Component {
       users:[],
       usersLoaded : false,
       gamesListLoaded : false,
-      isLogged : false,
+      isLogged : true, //NIEEE
       isRegistered: false,
       wantRegister : false,
       username : null,
@@ -36,7 +37,7 @@ class App extends Component {
 
   componentDidMount() {
     //let uTest='https://rickandmortyapi.com/api/character/187'
-    let uGamesList='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+    let uGamesList='http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
       .then(response => {
@@ -180,6 +181,10 @@ class App extends Component {
       //}
     });
 
+    function GameMatcher(gamesParams) {
+      return <GameMatching games={gamesParams}/>
+    }
+
     const switchToGames = this.state.games.map((game, index) => { 
         return(
           <Switch>
@@ -224,20 +229,17 @@ class App extends Component {
       );
     }
     else{
+      ///const isMatched = 
       return (
           <div className="App">
             <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
-            <h1 style={style}> That's your games:</h1>
-            {games}
-            <Game 
-            name={"tictactoe"}
-            key={1}
-            playersNumber={2}
-            />
+            <Link to={'/games'}> Go to games </Link>
+            <h2></h2>
             <Switch>
-              <Route path={"/Warcaby"} exact component={Warcaby}/>
-              <Route path={"/Szachy"} exact component={Szachy}/>
-              <Route path={"/board-games-frontend/tictactoe"} exact component={Tictactoe}/>
+              <Route path={"/games"}>{games}</Route>
+              <Route path={"/Warcaby"}>{GameMatcher(this.state.games[0])}</Route>
+              <Route path={"/Szachy"}>{GameMatcher(this.state.games[1])}</Route>
+              <Route path={"/tictactoe"}>{GameMatcher(this.state.games[0])}</Route>
             </Switch>
           </div>
     );

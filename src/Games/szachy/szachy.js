@@ -17,4 +17,4 @@ class Szachy extends Component {
     }
 };
 
-export default withRouter(Szachy);
+export default Szachy;

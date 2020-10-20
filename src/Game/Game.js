@@ -11,12 +11,27 @@ import {
 class Game extends Component {
     clicked() {
         //let game_url="/"+game_name
-        console.log(this.props.name)
-        this.props.history.push(this.props.name)
+        console.log(this.props.name==="Kółko i krzyżyk")
+        var gameURL = "/"
+        if (this.props.name==="Kółko i krzyżyk"){
+            gameURL = "/tictactoe"
+        }
+        else{
+            gameURL = "/"+ this.props.name
+        }
+        this.props.history.push(gameURL)
     }
 
     render() {
-        const gameURL = "/board-games-frontend/"+ this.props.name
+        var gameURL = "/"
+        if (this.props.name==="Kółko i krzyżyk"){
+            gameURL = "/tictactoe"
+        }
+        else{
+            gameURL = "/"+ this.props.name
+
+        }
+
         //console.log(props)
         return (
                 <div className="Game">

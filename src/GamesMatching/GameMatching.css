@@ -1,0 +1,15 @@
+.GameMatching {
+    width: 450px;
+    height: 60px;
+    margin: auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding-left: 16px;
+    text-align: left; 
+    overflow: hidden;
+
+}
+
+.Create-Room {
+    color: blue;
+}
