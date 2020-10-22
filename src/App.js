@@ -188,7 +188,7 @@ class App extends Component {
     const switchToGames = this.state.games.map((game, index) => { 
         return(
           <Switch>
-            <Route path={game.name} exact component={game.name}/>
+            <Route path={'board-games-frontend/'+game.name} exact component={game.name}/>
           </Switch>
         )
     });
@@ -233,13 +233,13 @@ class App extends Component {
       return (
           <div className="App">
             <h1 style={style} >Hi {this.state.username}, welcome to BoardGames!</h1>
-            <Link to={'/games'}> Go to games </Link>
+            <Link to={'/board-games-frontend/games'}> Go to games </Link>
             <h2></h2>
             <Switch>
-              <Route path={"/games"}>{games}</Route>
-              <Route path={"/Warcaby"}>{GameMatcher(this.state.games[0])}</Route>
-              <Route path={"/Szachy"}>{GameMatcher(this.state.games[1])}</Route>
-              <Route path={"/tictactoe"}>{GameMatcher(this.state.games[0])}</Route>
+              <Route path={"/board-games-frontend/games"}>{games}</Route>
+              <Route path={"/board-games-frontend/Warcaby"}>{GameMatcher(this.state.games[0])}</Route>
+              <Route path={"/board-games-frontend/Szachy"}>{GameMatcher(this.state.games[1])}</Route>
+              <Route path={"/board-games-frontend/tictactoe"}>{GameMatcher(this.state.games[0])}</Route>
             </Switch>
           </div>
     );

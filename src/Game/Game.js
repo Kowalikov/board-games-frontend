@@ -14,10 +14,10 @@ class Game extends Component {
         console.log(this.props.name==="Kółko i krzyżyk")
         var gameURL = "/"
         if (this.props.name==="Kółko i krzyżyk"){
-            gameURL = "/tictactoe"
+            gameURL = "/board-games-frontend/tictactoe"
         }
         else{
-            gameURL = "/"+ this.props.name
+            gameURL = "/board-games-frontend/"+ this.props.name
         }
         this.props.history.push(gameURL)
     }
@@ -25,10 +25,10 @@ class Game extends Component {
     render() {
         var gameURL = "/"
         if (this.props.name==="Kółko i krzyżyk"){
-            gameURL = "/tictactoe"
+            gameURL = "/board-games-frontend/tictactoe"
         }
         else{
-            gameURL = "/"+ this.props.name
+            gameURL = "/board-games-frontend/"+ this.props.name
 
         }
 
