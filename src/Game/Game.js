@@ -23,7 +23,7 @@ class Game extends Component {
     }
 
     render() {
-        var gameURL = "/"
+        var gameURL = "/ "
         if (this.props.name==="Kółko i krzyżyk"){
             gameURL = "/board-games-frontend/tictactoe"
         }
