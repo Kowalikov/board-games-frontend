@@ -55,7 +55,7 @@ class Room extends Component {
             },
           body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
-        window.location.reload(false);
+        window.location.reload();
         return response; // parses JSON response into native JavaScript objects
       }
       
@@ -99,7 +99,7 @@ class Room extends Component {
               },
             body: JSON.stringify(data) // body data type must match "Content-Type" header
           });
-          window.location.reload(false);
+          window.location.reload();
           return response; // parses JSON response into native JavaScript objects
         }
         
