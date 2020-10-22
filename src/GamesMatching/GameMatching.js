@@ -123,10 +123,12 @@ class GameMatching extends Component {
           matchesList = this.state.matches.map((room, index) => { 
               //console.log(room.players.length)
               //console.log('wy[isuję array players')
+              //console.log("props name:",this.state.gameName)
               return <Room
                 gameId={this.state.gameId} 
                 id={room.id}
                 key={index}
+                name={this.state.gameName}
                 maxPlayers={room.maxPlayers}
                 players={room.players}
                 matchPasser={this.matchPasser}

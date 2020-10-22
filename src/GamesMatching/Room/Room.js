@@ -16,6 +16,7 @@ class Room extends Component {
         super(props);
         this.state={
             gameId:this.props.gameId,
+            gameName: this.props.name,
             id:this.props.id,
             playersArray:this.props.players,
             maxPlayers:this.props.maxPlayers,
@@ -25,7 +26,6 @@ class Room extends Component {
         };
     }
     componentDidMount() {
-        console.log(this.state.playersArray);
         var i;
         for (i=0;i<this.state.playersArray.length;i++){
             if (this.state.playersArray[i].userId===9) {
@@ -55,7 +55,6 @@ class Room extends Component {
             },
           body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
-        window.location.reload();
         return response; // parses JSON response into native JavaScript objects
       }
       
@@ -76,6 +75,16 @@ class Room extends Component {
           console.log("Problem z łącznością z serwerem");
           window.alert("Problem z łącznością z serwerem")
         }
+        var gameURL = "/"
+        if (this.state.gameName==="Kółko i krzyżyk"){
+            gameURL = "/board-games-frontend/tictactoe"
+        }
+        else{
+            gameURL = "/board-games-frontend/"+ this.state.gameName
+
+        }
+        //console.log("game name:", this.state.gameName)
+        window.location.replace(gameURL);
       
       });
     }
@@ -86,8 +95,8 @@ class Room extends Component {
             "match": this.state.id,
             "playerName": this.state.playerNameId};
         
-        console.log('Article')
-        console.log(article)
+        //console.log('Article')
+        //console.log(article)
     
         async function postData(url = '', data = {}) {
           const response = await fetch(url, {
@@ -99,7 +108,6 @@ class Room extends Component {
               },
             body: JSON.stringify(data) // body data type must match "Content-Type" header
           });
-          window.location.reload();
           return response; // parses JSON response into native JavaScript objects
         }
         
@@ -117,11 +125,20 @@ class Room extends Component {
             window.alert("You are already in room");
           }
           else{
-            console.log("Problem z łącznością z serwerem");
+            //console.log("Problem z łącznością z serwerem");
             window.alert("Problem z łącznością z serwerem")
           }
-        
-        });
+          var gameURL = "/"
+          if (this.state.gameName==="Kółko i krzyżyk"){
+              gameURL = "/board-games-frontend/tictactoe"
+          }
+          else{
+              gameURL = "/board-games-frontend/"+ this.state.gameName
+
+          }
+          //console.log("game name:", this.state.gameName)
+          window.location.replace(gameURL);
+          });
       }
 
     render() {
@@ -134,7 +151,6 @@ class Room extends Component {
             game= <Szachy/>
             
         }
-        console.log(this.state.gameId)
         return (
             <div className="text-and-button">
                     { this.state.isMatchJoined===false && <div className="Room">
