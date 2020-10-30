@@ -18,7 +18,7 @@ class Cockpit extends Component {
   
   componentDidMount() {
     //console.log("props", this.props)
-    let uGamesList='http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+    let uGamesList='https://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
       .then(response => {
