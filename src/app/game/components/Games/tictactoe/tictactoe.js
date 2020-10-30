@@ -6,7 +6,7 @@ import {
 //    Route,
 //    Link
   } from "react-router-dom";
-  import "./tictactoe.css"
+import "./tictactoe.css"
 
 function Square(props) {
 return (

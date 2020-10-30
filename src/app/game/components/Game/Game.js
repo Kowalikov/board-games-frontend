@@ -10,29 +10,27 @@ import {
 
 class Game extends Component {
     clicked() {
-        //let game_url="/"+game_name
         console.log(this.props.name==="Kółko i krzyżyk")
         var gameURL = "/"
         if (this.props.name==="Kółko i krzyżyk"){
-            gameURL = "/board-games-frontend/tictactoe"
+            gameURL = "/tictactoe"
         }
         else{
-            gameURL = "/board-games-frontend/"+ this.props.name
+            gameURL = "/"+ this.props.name
         }
         this.props.history.push(gameURL)
     }
 
     render() {
-        var gameURL = "/ "
+        var gameURL = "/"
         if (this.props.name==="Kółko i krzyżyk"){
-            gameURL = "/board-games-frontend/tictactoe"
+            gameURL = "/tictactoe"
         }
         else{
-            gameURL = "/board-games-frontend/"+ this.props.name
+            gameURL = "/"+ this.props.name
 
         }
 
-        //console.log(props)
         return (
                 <div className="Game">
                     <p onClick={(event) => this.clicked(event)}>I'm
