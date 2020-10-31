@@ -18,6 +18,10 @@ class Cockpit extends Component {
   
   componentDidMount() {
     //console.log("props", this.props)
+    this.loadUsersFromServer()
+  }
+
+  loadUsersFromServer(submitLogin=false) {
     let uGamesList='https://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
@@ -30,6 +34,9 @@ class Cockpit extends Component {
     axios.get(uLog)
       .then(response => {
         this.props.loadUsers(response.data);
+        if (submitLogin) {
+          this.submitLoginHandler();
+        }
       });
   }
 
@@ -55,6 +62,7 @@ class Cockpit extends Component {
         if( response.status === 201){ 
         console.log("Zarejestrowany");
         this.props.setRegistered(response.data);
+        this.loadUsersFromServer(true);
       }
       else if (response.status === 400){
         console.log("Zła nazwa");
