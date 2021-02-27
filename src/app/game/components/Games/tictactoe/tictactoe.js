@@ -124,8 +124,8 @@ class Tictactoe extends Component {
  
         this.setState((prevState, props) => {
           return { 
-            boardState: payload.state, 
-            nextPlayer: payload.currentPlayer,
+            boardState: payload.data.state, 
+            nextPlayer: payload.data.currentPlayer,
             step:0
           };
         });
