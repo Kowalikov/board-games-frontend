@@ -118,7 +118,9 @@ class Tictactoe extends Component {
         } else {
           console.log("Warning: no mark assigned")
         }
-        this.props.updateBoardState(payload.data.state);
+        if ( this.props.roomData.boardState !== payload.data.state) {
+          this.props.updateBoardState(payload.data.state);
+        }
  
         this.setState((prevState, props) => {
           return { 
