@@ -17,7 +17,7 @@ class GameMatching extends Component {
     this.props.matchesUnloaded()
     var num = this.props.games.id
     //console.log(num)
-    //let gameURL = "/"+ this.props.name='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+    //let gameURL = "/"+ this.props.name='https://cors-anywhere.herokuapp.com/https://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     let gameURL = "https://boardgames1.herokuapp.com/matches/"+ num.toString()
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(gameURL)
@@ -79,7 +79,7 @@ class GameMatching extends Component {
   testMatch() {
     var num = this.props.roomData.joinedRoom;
     //console.log(num)
-    //let gameURL = "/"+ this.props.name='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+    //let gameURL = "/"+ this.props.name='https://cors-anywhere.herokuapp.com/https://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     let gameURL = "https://boardgames1.herokuapp.com/roomdetail/"+ num.toString()
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(gameURL)
