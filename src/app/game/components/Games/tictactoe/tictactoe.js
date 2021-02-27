@@ -118,7 +118,7 @@ class Tictactoe extends Component {
         } else {
           console.log("Warning: no mark assigned")
         }
-        this.props.updateBoardState(payload["state"]);
+        this.props.updateBoardState(payload.data.state);
  
         this.setState((prevState, props) => {
           return { 
@@ -127,7 +127,7 @@ class Tictactoe extends Component {
             step:0
           };
         });
-        this.props.nextPlayer(payload.currentPlayer);
+        this.props.nextPlayer(payload.data.currentPlayer);
         
         let status_finished="FINISHED";
         if (payload.status===status_finished) {
