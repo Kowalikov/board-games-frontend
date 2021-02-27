@@ -28,12 +28,19 @@ class Room extends Component {
         };
     }
     componentDidMount() {
+      //console.log("JoinedRoom: ",this.props.joinedRoom)
+
+    }
+
+    componentDidUpdate() {
+      //console.log("JoinedRoom: ",this.props.joinedRoom)
+
     }
 
     loadMatchesFromServer() {
       this.props.matchesUnloaded()
       var num = this.props.gameData.gameID
-      console.log(num)
+      //console.log(num)
       //let gameURL = "/"+ this.props.name='https://cors-anywhere.herokuapp.com/http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
       let gameURL = "https://boardgames1.herokuapp.com/matches/"+ num.toString()
       axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
@@ -42,18 +49,29 @@ class Room extends Component {
           this.props.loadMatches(response.data.matches);
           var i1;
           var i2;
+          let tempJoinedMatch=false
+
           console.log(response.data)
           for (i1=0;i1<response.data.matches.length;i1++){
             for (i2=0;i2<response.data.matches[i1].players.length; i2++){  
-              if (response.data.matches[i1].players[i2].userId===this.props.userSession.userData.userID) { 
-                    this.props.joinMatch(
-                      response.data.matches[i1].id,
-                      response.data.matches[i1].players,
-                      response.data.matches[i1].maxPlayers
-                    );
+              if (response.data.matches[i1].players[i2].userId===this.props.userSession.userData.userID) {
+                this.props.joinMatch(
+                  response.data.matches[i1].id,
+                  response.data.name,
+                  response.data.id,
+                  response.data.matches[i1].players,
+                  response.data.matches[i1].maxPlayers
+                );
+                tempJoinedMatch=true;
+                //console.log("LoadMatchesFromServer init: true",response.data.name)
+                this.props.initGame(response.data.name, response.data.id);
               }
             }
           }
+          if (tempJoinedMatch===false) {
+            this.props.initGame(this.props.games.name, this.props.games.id)
+          }
+          this.props.fullLoadMatch();
         });
       }
 
@@ -117,15 +135,17 @@ const mapStateToProps = state => ({
   ...state.gameSession, //ew movies: state.movies,
   userSession: {
     ...state.userSession,
-  }
+  },
 })
 
 const mapDispatchToProps = (dispatch) => ({
   matchesUnloaded: () => dispatch(actions.matchesUnloaded()),
   loadMatches: matches => dispatch(actions.loadMatches(matches)),
-  joinMatch: (roomID, players, maxPlayers) => dispatch(actions.joinMatch(roomID, players, maxPlayers)),
+  fullLoadMatch: () => dispatch(actions.fullLoadMatch()),
+  joinMatch: (roomID, roomGameName, roomGameID, players, maxPlayers) => dispatch(actions.joinMatch(roomID, roomGameName, roomGameID, players, maxPlayers)),
   matchNotJoined: () => dispatch(actions.matchNotJoined()),
-  
+  initGame: (gameName, gameID) => dispatch(actions.initGame(gameName, gameID)),
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Room));

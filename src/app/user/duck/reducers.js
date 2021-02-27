@@ -90,7 +90,6 @@ const userReducer = (state = INITIAL_STATE, action ) => {
         ...state,
         loginMetadata: {
           ...state.loginMetadata,
-          wantRegister: false,
           usersLoaded:true,
           isLogged: true,
           unavaliableUsername : false,

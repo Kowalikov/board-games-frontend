@@ -18,24 +18,44 @@ class Cockpit extends Component {
   
   componentDidMount() {
     //console.log("props", this.props)
+    this.loadGamesFromServer()
     this.loadUsersFromServer()
   }
+  componentDidUpdate() {
+    document.title = `${this.props.gameSession.gameData.gameName}`
 
-  loadUsersFromServer(submitLogin=false) {
-    let uGamesList='https://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
+  }
+
+  loadGamesFromServer() {
+    let uGamesList='http://boardgames1.herokuapp.com/games/?fbclid=IwAR37IdjpLC4RmLuN1wSehM1DtarmIavEGkcy7SMh-kf_lsIEVp0r3DeyaXY'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uGamesList)
       .then(response => {
         this.props.loadGames(response.data);
       });
+  }
 
+  loadUsersFromServer(login=false) {
     let uLog='https://boardgames1.herokuapp.com/register/'
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.get(uLog)
       .then(response => {
         this.props.loadUsers(response.data);
-        if (submitLogin) {
-          this.submitLoginHandler();
+        if (login===true) {
+          const username = this.props.userData.username;
+          console.log(username, response.data);
+          let loggedTemp=false;
+          response.data.map(user => { 
+            if (username===user.username){
+              this.props.setLoggedIn()
+              this.props.setID(user.id)
+              loggedTemp = true
+            }
+          });
+          if (loggedTemp===false) {
+            this.props.failedLogin()
+          }  
+            
         }
       });
   }
@@ -77,15 +97,17 @@ class Cockpit extends Component {
   
   submitLoginHandler() {
     const username = this.props.userData.username;    
+    let loggedTemp=false;
     this.props.sessionData.users.map(user => { 
       if (username===user.username){
         this.props.setLoggedIn()
         this.props.setID(user.id)
-      }
-      else {
-        this.props.failedLogin()
+        loggedTemp=true
       }
     });
+    if (loggedTemp===false) {
+      this.props.failedLogin()
+    }
   }
 
   enterRegisterHandler(event) {
@@ -118,8 +140,6 @@ class Cockpit extends Component {
           img={game.imgUrl}
           />;
     });
-
-    
 
     /*const switchToGames = this.props.sessionData.games.map((game, index) => { 
         return(
@@ -169,7 +189,7 @@ class Cockpit extends Component {
       return (
           <div className="App">
             <h1 style={style} >Hi {this.props.userData.username}, welcome to BoardGames!</h1>
-            <Link to={'/games'}> Go to games </Link>
+            <Link to={'/games'} onClick={() => {this.props.initGame('BoardGames', null);}}> Go to games </Link>
             <h2> </h2>
             <Switch>
               <Route path={"/games"}>{games}</Route>
@@ -185,7 +205,10 @@ class Cockpit extends Component {
 }
 
 const mapStateToProps = state => ({
-  ...state.userSession //ew movies: state.movies,
+  ...state.userSession, //ew movies: state.movies,
+  gameSession: {
+    ...state.gameSession,
+  }
 })
 
 const mapDispatchToProps = (dispatch) => ({
