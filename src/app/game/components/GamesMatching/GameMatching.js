@@ -239,7 +239,7 @@ const mapDispatchToProps = (dispatch) => ({
   matchNotJoined: () => dispatch(actions.matchNotJoined()),
   initGame: (gameName, gameID) => dispatch(actions.initGame(gameName, gameID)),
   updateBoardState: (boardState) => dispatch(actions.updateBoardState(boardState)),
-  finishGame: () => dispatch(actions.finishGame()),
+  finishGame: (winnerMark) => dispatch(actions.finishGame(winnerMark)),
   nextPlayer: (nextPlayer) => dispatch(actions.nextPlayer(nextPlayer))
 
 })

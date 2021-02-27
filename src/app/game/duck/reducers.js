@@ -21,6 +21,7 @@ const INITIAL_STATE = {
       myMark: null,
       nextPlayer: null,
       finished: false,
+      winner: null,
     }
 }
 
@@ -112,6 +113,7 @@ const gameReducer = (state = INITIAL_STATE, action ) => {
         roomData: {
           ...state.roomData,
           finished: true,
+          winner: action.winnerMark,
         }
       }
     case types.NEXT_PLAYER:

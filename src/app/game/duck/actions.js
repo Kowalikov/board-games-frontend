@@ -8,7 +8,7 @@ const joinMatch = (roomID, roomGameName, roomGameID, players, maxPlayers) => ({t
 const matchNotJoined = () => ({type: types.MATCH_NOT_JOINED})
 const initGame = (gameName, gameID) => ({type: types.INIT_GAME, gameName: gameName, gameID: gameID})
 const updateBoardState = (boardState) => ({type: types.UPDATE_BOARDSTATE, boardState: boardState})
-const finishGame = () => ({type: types.FINISH_GAME})
+const finishGame = (winnerMark) => ({type: types.FINISH_GAME, winnerMark: winnerMark})
 const nextPlayer = (nextPlayer) => ({type: types.NEXT_PLAYER, nextPlayer:nextPlayer})
 const setMark = (mark) => ({type: types.SET_MARK, mark:mark})
 
