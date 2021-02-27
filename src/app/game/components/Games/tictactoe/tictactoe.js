@@ -78,10 +78,11 @@ class Tictactoe extends Component {
 
     this.ws.onmessage = evt => {
       let payload;
-      if (this.props.roomData.finishGame){ 
+      console.log("Tester of payload converter", JSON.parse(evt.data).winner)
+      if (typeof JSON.parse(evt.data).winner !== 'undefined'){ 
         console.log("Server finished data",evt.data)
         payload = JSON.parse(evt.data);
-        this.props.finishGame(payload.winner); 
+        this.props.gameStatus(this.props.roomData.status , payload.winner); 
         this.winner = payload.winner;
         return null;
       } else if (this.firstMessage==true) {
@@ -105,10 +106,7 @@ class Tictactoe extends Component {
           };
         });
         this.props.nextPlayer(payload.data.currentPlayer);
-        let status_finished="FINISHED";
-        if (payload.data.status===status_finished) {
-            this.props.finishGame(null);
-        };
+        this.props.gameStatus(payload.data.status, this.props.roomData.winner);
       } else {
         payload = JSON.parse(evt.data);
         console.log("Server data update",payload)
@@ -122,7 +120,7 @@ class Tictactoe extends Component {
         if (typeof payload.data !== 'undefined'){
           payload=payload.data;
         }
-        this.props.updateBoardState(payload.state);
+        this.props.gameStatus(payload.status, this.props.roomData.winner);
         this.setState((prevState, props) => {
           return { 
             boardState: payload.state, 
@@ -131,14 +129,8 @@ class Tictactoe extends Component {
           };
         });
         
-        console.log("Payload data state update", payload.state)
-
         this.props.nextPlayer(payload.currentPlayer);
-        
-        let status_finished="FINISHED";
-        if (payload.status===status_finished) {
-            this.props.finishGame();
-        };
+        this.props.updateBoardState(payload.state);
       }  
     }
 
@@ -186,7 +178,7 @@ class Tictactoe extends Component {
     })
     const stepCurrent = this.state.stepNumber;
     if (calculateWinner(WSBoardState)) {
-      this.props.finishGame()
+      console.log("Locally calculated winner")
       return;
     }
     if (this.props.roomData.myMark==="X"){
@@ -216,15 +208,15 @@ class Tictactoe extends Component {
     const moves = <button onClick={() => this.jumpTo(0)}>Go to game start</button>
     let status;
     let current = this.state.boardState;
-    if (this.props.roomData.finished) {
-      status = "Winner: " + this.props.roomData.winnerMark;
+    if (this.props.roomData.status === "FINISHED") {
+      status = "Winner: " + this.props.roomData.winner;
     } else {
       status = "Next player: " + (this.props.roomData.nextPlayer);
     }
 
     return (
       <div className="game">
-        { this.props.roomData.finished? 
+        { this.props.roomData.status === "FINISHED" ? 
           <p>Finished</p>:
           <div className="game-board">
             <br></br>
@@ -265,7 +257,7 @@ const mapDispatchToProps = (dispatch) => ({
   fullLoadMatch: () => dispatch(actions.fullLoadMatch()),
   joinMatch: (roomID, players, maxPlayers) => dispatch(actions.joinMatch(roomID, players, maxPlayers)),
   matchNotJoined: () => dispatch(actions.matchNotJoined()),
-  finishGame: (winnerMark) => dispatch(actions.finishGame(winnerMark)),
+  gameStatus: (state, winnerMark) => dispatch(actions.gameStatus(state, winnerMark)),
   updateBoardState: (boardState) => dispatch(actions.updateBoardState(boardState)),
   nextPlayer: (nextPlayer) => dispatch(actions.nextPlayer(nextPlayer)),
   setMark: (mark) => dispatch(actions.setMark(mark))

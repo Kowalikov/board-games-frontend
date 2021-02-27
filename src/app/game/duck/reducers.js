@@ -20,7 +20,7 @@ const INITIAL_STATE = {
       boardState: [],
       myMark: null,
       nextPlayer: null,
-      finished: false,
+      status: "",
       winner: null,
     }
 }
@@ -87,8 +87,6 @@ const gameReducer = (state = INITIAL_STATE, action ) => {
           activePlayers: [],
           maxPlayers:null,
           boardState: [],
-          finished: false,
-    
         }
       }
     case types.INIT_GAME: 
@@ -107,12 +105,12 @@ const gameReducer = (state = INITIAL_STATE, action ) => {
           boardState: action.boardState,
         }
       }
-    case types.FINISH_GAME:
+    case types.GAME_STATUS:
       return { 
         ...state,
         roomData: {
           ...state.roomData,
-          finished: true,
+          status: action.status,
           winner: action.winnerMark,
         }
       }
