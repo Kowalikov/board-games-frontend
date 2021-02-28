@@ -197,8 +197,10 @@ class GameMatching extends Component {
                 players: [{this.props.roomData.activePlayers.length}/{this.props.roomData.maxPlayers}]</p>
               <div>
                 {this.game()}
-                <button className="WebsocketTest" onClick={(event) => this.testWebsocket()}>Test WebSocket</button>
-                <button className="MatchTest" onClick={(event) => this.testMatch()}>Get Match info</button>
+                {
+                //<button className="WebsocketTest" onClick={(event) => this.testWebsocket()}>Test WebSocket</button>
+                //<button className="MatchTest" onClick={(event) => this.testMatch()}>Get Match info</button>
+                }
               </div> 
               <br></br>
             </div>:

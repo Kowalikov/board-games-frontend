@@ -197,21 +197,24 @@ class Tictactoe extends Component {
     }
   }
 
-  jumpTo(step) {
-    this.setState({
-      boardState: {squares: Array(9).fill(null)},
-      stepNumber: step,
-    });
+  nextPlayerShower(nextID) {
+    if (nextID=== null) {
+      return "waiting for another player..."
+    } else if (nextID === this.props.userSession.userData.userID) {
+      return "you"
+    } else {
+      return "your opponent"
+    }
+
   }
 
   render() {
-    const moves = <button onClick={() => this.jumpTo(0)}>Go to game start</button>
     let status;
     let current = this.state.boardState;
     if (this.props.roomData.status === "FINISHED") {
       status = "Winner: " + this.props.roomData.winner;
     } else {
-      status = "Next player: " + (this.props.roomData.nextPlayer);
+      status = "Next player: " + this.nextPlayerShower(this.props.roomData.nextPlayer);
     }
 
     return (
@@ -233,7 +236,7 @@ class Tictactoe extends Component {
           <br></br>
           <div>{status}</div>
             <br></br>
-          <div>{moves}</div>
+          <div>{this.props.roomData.myMark!== "" ? "Your mark: "+this.props.roomData.myMark : <br></br> }</div>
         </div>
       </div>
     );
